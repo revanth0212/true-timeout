@@ -1,0 +1,47 @@
+<html>
+    <title>
+        true-timeout example
+    </title>
+    <script type='text/javascript' src='../packages/index.js'></script>
+    <body>
+        <input type="button" id="browserTimeout" value="Browser Timeout" onclick="browserTimeoutButtonOnClick()" />
+        <input type="button" id="trueTimeout" value="True Timeout (Worker Based)" onclick="trueTimeoutButtonOnClick()" />
+        <input id="browserTimeoutLabel" value="" />
+        <input id="trueTimeoutLabel" value="" />
+        <script type="text/javascript">
+            var timeout = 5000
+            var browserTimeoutStart = 0
+            var trueTimeoutStart = 0
+            var browserTimeoutFinish = 0
+            var trueTimeoutFinish = 0
+
+            var browserTimeoutLabel = document.getElementById('browserTimeoutLabel')
+            var trueTimeoutLabel = document.getElementById('trueTimeoutLabel')
+
+            var browserTimeoutCallBack = function () {
+                browserTimeoutFinish = Math.floor(Date.now() / 1000)
+                // browserTimeoutLabel.setAttribute('value', `${browserTimeoutFinish - browserTimeoutStart}`)
+                console.log(`Browser: ${browserTimeoutFinish - browserTimeoutStart}`)
+            }
+            
+            var trueTimeoutCallBack = function () {
+                trueTimeoutFinish = Math.floor(Date.now() / 1000)
+                // trueTimeoutLabel.setAttribute('value', `${trueTimeoutFinish - trueTimeoutStart}`)
+                console.log(`Worker: ${trueTimeoutFinish - trueTimeoutStart}`)
+            }
+
+            var browserTimeoutButtonOnClick = function () {
+                browserTimeoutStart = Math.floor(Date.now() / 1000)
+                setTimeout(() => {
+                    browserTimeoutCallBack()
+                }, timeout)
+            }
+
+            var trueTimeoutButtonOnClick = function () {
+                trueTimeoutStart = Math.floor(Date.now() / 1000)
+                trueTimeout(timeout, trueTimeoutCallBack)
+            }
+
+        </script>
+    </body>
+</html>
