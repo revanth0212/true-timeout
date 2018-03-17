@@ -15,4 +15,6 @@ if (window.Worker) {
             worker.postMessage(timeout)
         }
     }
+
+    window.trueTimeout = trueTimeout
 }
