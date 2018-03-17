@@ -20,13 +20,13 @@
 
             var browserTimeoutCallBack = function () {
                 browserTimeoutFinish = Math.floor(Date.now() / 1000)
-                // browserTimeoutLabel.setAttribute('value', `${browserTimeoutFinish - browserTimeoutStart}`)
+                browserTimeoutLabel.setAttribute('value', `${browserTimeoutFinish - browserTimeoutStart}`)
                 console.log(`Browser: ${browserTimeoutFinish - browserTimeoutStart}`)
             }
             
             var trueTimeoutCallBack = function () {
                 trueTimeoutFinish = Math.floor(Date.now() / 1000)
-                // trueTimeoutLabel.setAttribute('value', `${trueTimeoutFinish - trueTimeoutStart}`)
+                trueTimeoutLabel.setAttribute('value', `${trueTimeoutFinish - trueTimeoutStart}`)
                 console.log(`Worker: ${trueTimeoutFinish - trueTimeoutStart}`)
             }
 
