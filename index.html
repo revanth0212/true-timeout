@@ -2,12 +2,26 @@
     <title>
         true-timeout example
     </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script type='text/javascript' src='../packages/index.js'></script>
     <body>
-        <input type="button" id="browserTimeout" value="Browser Timeout" onclick="browserTimeoutButtonOnClick()" />
-        <input type="button" id="trueTimeout" value="True Timeout (Worker Based)" onclick="trueTimeoutButtonOnClick()" />
-        <input id="browserTimeoutLabel" value="" />
-        <input id="trueTimeoutLabel" value="" />
+        <div style="padding: 15px">
+            In this example lets prove that the <strong>WORKER </strong>based timeout is closer to a <strong>TRUE TIMEOUT</strong> than a <strong>setTimeout </strong>based one. In this the <strong>TIMEOUT </strong>used for both is <strong>5 SECONDS</strong>.
+        </div>
+        <div style="padding: 15px">
+            <input type="button" id="runBoth" value="Run Both At A Time Without Stress" onclick="runBothAtATime()" />
+            <input type="button" id="runBothWithStress" value="Run Both At A Time With Stress" onclick="runBothAtATimeWithStress()" />
+            <input type="button" id="browserTimeout" value="Browser Timeout" onclick="browserTimeoutButtonOnClick()" />
+            <input type="button" id="trueTimeout" value="True Timeout (Worker Based)" onclick="trueTimeoutButtonOnClick()" />
+        </div>
+        <div style="padding: 15px">
+            <label id="browserTimeoutLabel" style="padding-right: 20px">Browser setTimeout took:</label>
+            <label id="trueTimeoutLabel" style="padding-left: 20px">Worker setTimeout took:</label>
+        </div>
+        <div style="padding: 15px">
+            <label id="browserLoadingLabel" style="padding-right: 20px"></label>
+            <label id="workerLoadingLabel" style="padding-left: 20px"></label>
+        </div>
         <script type="text/javascript">
             var timeout = 5000
             var browserTimeoutStart = 0
@@ -18,19 +32,47 @@
             var browserTimeoutLabel = document.getElementById('browserTimeoutLabel')
             var trueTimeoutLabel = document.getElementById('trueTimeoutLabel')
 
+            var browserLoadingLabel = document.getElementById('browserLoadingLabel')
+            var workerLoadingLabel = document.getElementById('workerLoadingLabel')
+
+            var clearValueLabels = function () {
+                browserTimeoutLabel.innerHTML = 'Browser setTimeout took:'
+                trueTimeoutLabel.innerHTML = 'Worker setTimeout took:'
+            }
+
+            var setBrowserLoadingLabel = function () {
+                browserLoadingLabel.innerHTML = 'Browser Working...'
+            }
+
+            var clearBrowserLoadingLabel = function () {
+                browserLoadingLabel.innerHTML = ''
+            }
+
+            var setWorkerLoadingLabel = function () {
+                workerLoadingLabel.innerHTML = 'Worker Working...'
+            }
+
+            var clearWorkerLoadingLabel = function () {
+                workerLoadingLabel.innerHTML = ''
+            }
+
             var browserTimeoutCallBack = function () {
                 browserTimeoutFinish = Math.floor(Date.now() / 1000)
-                browserTimeoutLabel.setAttribute('value', `${browserTimeoutFinish - browserTimeoutStart}`)
+                clearBrowserLoadingLabel()
+                browserTimeoutLabel.innerHTML = `Browser setTimeout took: ${browserTimeoutFinish - browserTimeoutStart} seconds`
                 console.log(`Browser: ${browserTimeoutFinish - browserTimeoutStart}`)
             }
             
             var trueTimeoutCallBack = function () {
                 trueTimeoutFinish = Math.floor(Date.now() / 1000)
-                trueTimeoutLabel.setAttribute('value', `${trueTimeoutFinish - trueTimeoutStart}`)
+                clearWorkerLoadingLabel()
+                trueTimeoutLabel.innerHTML = `Worker setTimeout took: ${trueTimeoutFinish - trueTimeoutStart} seconds`
                 console.log(`Worker: ${trueTimeoutFinish - trueTimeoutStart}`)
             }
 
             var browserTimeoutButtonOnClick = function () {
+                browserTimeoutLabel.innerHTML = 'Browser setTimeout took:'
+                setBrowserLoadingLabel()
                 browserTimeoutStart = Math.floor(Date.now() / 1000)
                 setTimeout(() => {
                     browserTimeoutCallBack()
@@ -38,8 +80,38 @@
             }
 
             var trueTimeoutButtonOnClick = function () {
+                trueTimeoutLabel.innerHTML = 'Worker setTimeout took:'
+                setWorkerLoadingLabel()
                 trueTimeoutStart = Math.floor(Date.now() / 1000)
                 trueTimeout(timeout, trueTimeoutCallBack)
+            }
+
+            var runBothAtATime = function () {
+                clearValueLabels()
+                browserTimeoutButtonOnClick()
+                trueTimeoutButtonOnClick()
+            }
+
+            var registerSetTimeout = function (x) {
+                setTimeout(() => {
+                    console.log(x)
+                }, 1000)
+            }
+
+            var applyStress = function () {
+                for (var i = 0; i < 1000; i++) {
+                    for (var j = 0; j < 500; j++) {
+                        var x = (i + j / 123456) * 12345
+                        registerSetTimeout(x)
+                    }
+                }
+            }
+
+            var runBothAtATimeWithStress = function() {
+                clearValueLabels()
+                browserTimeoutButtonOnClick()
+                trueTimeoutButtonOnClick()
+                applyStress()
             }
 
         </script>
