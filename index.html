@@ -3,7 +3,7 @@
         true-timeout example
     </title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script type='text/javascript' src='../packages/index.js'></script>
+    <script type='text/javascript' src='index.js'></script>
     <body>
         <div style="padding: 15px">
             In this example lets prove that the <strong>WORKER </strong>based timeout is closer to a <strong>TRUE TIMEOUT</strong> than a <strong>setTimeout </strong>based one. In this the <strong>TIMEOUT </strong>used for both is <strong>5 SECONDS</strong>.
@@ -83,7 +83,7 @@
                 trueTimeoutLabel.innerHTML = 'Worker setTimeout took:'
                 setWorkerLoadingLabel()
                 trueTimeoutStart = Math.floor(Date.now() / 1000)
-                trueTimeout(timeout, trueTimeoutCallBack)
+                window.trueTimeout(timeout, trueTimeoutCallBack)
             }
 
             var runBothAtATime = function () {

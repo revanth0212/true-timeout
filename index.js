@@ -1,6 +1,6 @@
 if (window.Worker) {
 
-    var worker = new Worker('../packages/worker.js')
+    var worker = new Worker('worker.js')
 
     function trueTimeout (timeout, callbackFunction, failureHandler) {
         if(worker) {
@@ -15,4 +15,6 @@ if (window.Worker) {
             worker.postMessage(timeout)
         }
     }
+
+    window.trueTimeout = trueTimeout
 }
