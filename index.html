@@ -83,7 +83,7 @@
                 trueTimeoutLabel.innerHTML = 'Worker setTimeout took:'
                 setWorkerLoadingLabel()
                 trueTimeoutStart = Math.floor(Date.now() / 1000)
-                window.trueTimeout(timeout, trueTimeoutCallBack)
+                window.trueTimeout(trueTimeoutCallBack, timeout)
             }
 
             var runBothAtATime = function () {
